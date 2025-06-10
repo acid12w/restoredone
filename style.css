@@ -1,0 +1,42 @@
+.clip {
+    clip-path: inset(34% 16% 29% 17%);
+    transition: all;
+    /* transition-duration: 2s !important; */
+} 
+
+.block-box {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+.transition-block-box {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
+}
+
+#hero-img {
+    transform: scale(1.2);
+    will-change: transform;
+}
+
+.line, .word , .cta-label, .nav-ul {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+.img-transition {
+    clip-path: polygon(0 83%, 100% 83%, 100% 100%, 0 100%);
+}
+
+.img-transition-1 {
+    clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
+}
+
+
+
+.line h1, .line h2, .line p, .word p, .cta-label button, .nav-ul {
+    position: relative;
+    transform: translateY(120px);
+    will-change: transform;
+}
+
+.cta-label button {
+    transform: scale(0);
+}
