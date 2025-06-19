@@ -22,7 +22,7 @@
 }
 
 .img-transition {
-    clip-path: polygon(0 83%, 100% 83%, 100% 100%, 0 100%);
+    clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%);
 }
 
 .img-transition-1 {

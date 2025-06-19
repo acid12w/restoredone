@@ -63,12 +63,41 @@ document.addEventListener("DOMContentLoaded", () => {
             onStart: () => gsap.to('.cta-label button', { scale: 1, clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)', duration: 1.5, stagger: 0.75, delay: 0.75, ease: "hop"})
         },
         "<")
+    }  
+})
+
+const mobileNav = document.querySelector('#mobile-nav');
+const navbarDropdown = document.querySelector('#navbar-dropdown');
+let isActive = false;
+
+mobileNav.addEventListener('click', function(e){
+
+    console.log(isActive)
+
+    if(isActive){
+        open()
+    }else{
+        close()
+    }
+
+    function open(){
+        gsap.to(navbarDropdown, {
+            x: 750,
+            ease: "power4.inOut",
+        })  
+        isActive = false;
+    }
+
+    function close(){
+        gsap.to(navbarDropdown, {
+            x: 0,
+            ease: "power4.inOut",
+        })  
+        isActive = true;
     }
     
     
-
-    
-})
+});
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -156,31 +185,228 @@ function pauseVid() {
 }
 
 
-const accordion = document.querySelector("#acc-box");
-const accordions = document.querySelectorAll("#acc");
+// const accordion = document.querySelector("#acc-box");
+// const accordions = document.querySelectorAll("#acc");
 
-accordion.addEventListener("click", function(e){
+// accordion.addEventListener("click", function(e){
 
-    const target = e.target.closest('#acc');
+//     const target = e.target.closest('#acc');
 
-    if(!target) return;
+//     if(!target) return;
 
-    accordions.forEach(el => {
+//     accordions.forEach(el => {
 
-        if(el === target) {
+//         if(el === target) {
 
-            gsap.to(el, {
-                width: "45%", 
-                ease: "power4.inOut",
-                duration: .5,
-            })
-        }else {
-            gsap.to(el, {
-                width: "25%",
-                ease: "power4.inOut",
-                duration: .5,
-            }) 
-        }
-    });
+//             gsap.to(el, {
+//                 width: "45%", 
+//                 ease: "power4.inOut",
+//                 duration: .5,
+//             })
+//         }else {
+//             gsap.to(el, {
+//                 width: "25%",
+//                 ease: "power4.inOut",
+//                 duration: .5,
+//             }) 
+//         }
+//     });
    
-});                                                     
+// });                                                     
+
+
+const testimonialCards = gsap.utils.toArray("#testimonial-cards");
+
+
+const animate = gsap.to(testimonialCards, {
+        stagger: 1,
+        duration: 1.5,
+        rotation: -120,
+        y: -700,
+        ease: "power4.in",
+
+})
+
+const pinTl = gsap.timeline();
+
+    ScrollTrigger.create({
+        trigger: ".square",
+        start:"top 30%",
+        end: "+=1000",
+        pin: true,
+        animation: animate,
+        scrub: 0.5,
+    });
+
+    // let testimonials = gsap.utils.toArray("#testimonial-card")
+
+    // pinTl.to(testimonials, {
+    //     scrollTrigger: {
+    //         trigger: "#testimonials",
+    //         start: "top top", // when the top of the trigger hits the top of the viewport
+    //         scrub: true,
+    //         markers: true
+    //     },
+    //     stagger: 0.2,
+    //     duration: .5,
+    //     rotation: -120,
+    //     y: -700,
+        
+    // }, ">");
+
+    // pinTl.to('#testimonial-card-2', {
+    //     scrollTrigger: {
+    //         trigger: "#testimonials",
+    //         start: "top top", // when the top of the trigger hits the top of the viewport
+    //         scrub: true,
+    //         markers: true
+    //     },
+    //     stagger: 0.2,
+    //     duration: .5,
+    //     rotation: -20,
+    //     y: -300,
+ 
+    // });
+
+    // pinTl.to('#testimonial-card-3', {
+    //     scrollTrigger: {
+    //         trigger: "#testimonials",
+    //         start: "top top",
+    //         scrub: true,
+    //         markers: true
+    //     },
+    //     stagger: 0.2,
+    //     duration: .5,
+    //     rotation: -20,
+    //     y: -300,
+    // }, ">");
+
+    // pinTl.to('#testimonial-card-2', {
+    //     scrollTrigger: {
+    //         trigger: "#testimonials",
+    //         start: "500", // when the top of the trigger hits the top of the viewport
+    //         end: "bottom bottom", 
+    //         scrub: true,
+    //         pin: true,
+    //     },
+    //     stagger: 0.2,
+    //     duration: 1.5,
+    //     rotation: -20,
+    //     y: -300,
+    //     ease: "power4.inOut",
+    // });
+
+    // pinTl.to('#testimonial-card-3', {
+    //     scrollTrigger: {
+    //         trigger: "#testimonials",
+    //         start: "500", // when the top of the trigger hits the top of the viewport
+    //         end: "bottom bottom", 
+    //         scrub: true,
+    //         pin: true,
+    //     },
+    //     stagger: 0.2,
+    //     duration: 1.5,
+    //     rotation: -20,
+    //     y: -300,
+    //     ease: "power4.inOut",
+    // });
+
+
+
+// learn what all this code means at
+// https://www.creativecodingclub.com/bundles/creative-coding-club
+// unlock over 250 GSAP lessons today
+
+
+const details = gsap.utils.toArray(".desktopContentSection:not(:first-child)")
+const photos = gsap.utils.toArray(".desktopPhoto:not(:first-child)")
+
+
+gsap.set(photos, {yPercent:101})
+
+const allPhotos = gsap.utils.toArray(".desktopPhoto")
+
+
+// create
+let mm = gsap.matchMedia();
+
+// add a media query. When it matches, the associated function will run
+mm.add("(min-width: 600px)", () => {
+
+  // this setup code only runs when viewport is at least 600px wide
+  console.log("desktop")
+	
+  ScrollTrigger.create({
+	trigger:".gallery",
+	start:"top top",
+	end:"bottom bottom",
+	pin:".right"
+})
+
+//create scrolltrigger for each details section
+//trigger photo animation when headline of each details section 
+//reaches 80% of window height
+details.forEach((detail, index)=> {
+
+	let headline = detail.querySelector("h1")
+	let animation = gsap.timeline()
+	   .to(photos[index], {yPercent:0})
+	   .set(allPhotos[index], {autoAlpha:0})
+	ScrollTrigger.create({
+		trigger:headline,
+		start:"top 80%",
+		end:"top 50%",
+		animation:animation,
+		scrub:true,
+		markers:false
+	})
+})
+	
+	
+  
+  return () => { // optional
+    // custom cleanup code here (runs when it STOPS matching)
+	  console.log("mobile")
+  };
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+/* ScrollTrigger Docs
+
+https://greensock.com/docs/v3/Plugins/ScrollTrigger
+
+*/
+
+
+
+
+
+/* 
+
+learn more GreenSock and ScrollTrigger
+
+https://www.creativeCodingClub.com
+
+new lessons weekly
+less than $1 per week
+
+*/
