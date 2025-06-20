@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
         link.addEventListener("click", (event) => {
             event.preventDefault();
             const href = link.getAttribute("href");
-                console.log(window.location.pathname)
+                console.log(href, window.location.pathname)
                 if(href && !href.startsWith('#') && href !== window.location.pathname) {
                     animateTransition().then(()=> {
                         window.location.href = href;
