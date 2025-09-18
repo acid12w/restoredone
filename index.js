@@ -218,160 +218,117 @@ function pauseVid() {
 const testimonialCards = gsap.utils.toArray("#testimonial-cards");
 
 
-const animate = gsap.to(testimonialCards, {
-        stagger: 1,
-        duration: 1.5,
-        rotation: -120,
-        y: -700,
-        ease: "power4.in",
+// const animate = gsap.to(testimonialCards, {
+//         stagger: 1,
+//         duration: 1.5,
+//         rotation: -120,
+//         y: -700,
+//         ease: "power4.in",
 
-})
+// })
 
-const pinTl = gsap.timeline();
+// const pinTl = gsap.timeline();
 
-    ScrollTrigger.create({
-        trigger: ".square",
-        start:"top 30%",
-        end: "+=1000",
-        pin: true,
-        animation: animate,
-        scrub: 0.5,
-    });
+//     ScrollTrigger.create({
+//         trigger: ".square",
+//         start:"top 30%",
+//         end: "+=1000",
+//         pin: true,
+//         animation: animate,
+//         scrub: 0.5,
+//     });
 
-    // let testimonials = gsap.utils.toArray("#testimonial-card")
 
-    // pinTl.to(testimonials, {
-    //     scrollTrigger: {
-    //         trigger: "#testimonials",
-    //         start: "top top", // when the top of the trigger hits the top of the viewport
-    //         scrub: true,
-    //         markers: true
-    //     },
-    //     stagger: 0.2,
-    //     duration: .5,
-    //     rotation: -120,
-    //     y: -700,
+
+
+// testimonialCards.forEach(card => {
+//     gsap.set(card, {
+//        y: window.innerHeight,
+//     })
+// })
+
+//     ScrollTrigger.create({
+//         trigger: ".sticky-cards",
+//         start:"top top",
+//         end: `+=${window.innerHeight * 3}px`,
+//         pin: true,
+//         pinSpacing: true,
+//         scrub: 2,
+//         onUpdate: (self) => {
+//             const progress = self.progress;
+//             const totalCards = testimonialCards.length;
+//             const progressPerCard = 1 / totalCards;
+
+//             testimonialCards.forEach((card, index) => {
+//                 const cardStart = index * progressPerCard;
+//                 let cardProgress = (progress - cardStart) / progressPerCard;
+//                 cardProgress = Math.min(Math.max(cardProgress, 0), 1);
+
+    
+//                 let yPas = window.innerHeight * (1 - cardProgress);
+//                 let xPas = 0;
+
+//                 if(cardProgress === 1 && index < totalCards - 1 ){
+//                     const remainingProgress = (progress - (cardStart + progressPerCard)) / (1 - (cardStart + progressPerCard))
+//                     if (remainingProgress > 0){
+//                         const distanceMultiplier = 1 - index * 0.15;
+//                         xPas = -window.innerWidth * 0.3 * distanceMultiplier * remainingProgress;
+//                         yPas = -window.innerHeight * 0.3 * distanceMultiplier * remainingProgress;
+//                     }
+//                 }
+              
+
+//                 gsap.to(card, {
+//                     y: yPas,
+//                     // x: xPas,
+//                     duration: 0,
+//                     ease: "none"
+//                 })
+//             });
+//         }
+//     });
+
+
+    const stickyCardsAnimation = () => {
+        const stickyCards = document.querySelectorAll(".sticky-card");
+
+        stickyCards.forEach((card, index) => {
+            if (index < stickyCards.length - 1) {
+                ScrollTrigger.create({
+                    trigger: card,
+                    start: "top top",
+                    endTrigger: stickyCards[stickyCards.length -1],
+                    end: "top top",
+                    pin: true,
+                    pinSpacing: false,
+                })
+            }
+
+            if(index < stickyCards.length - 1){
+                ScrollTrigger.create({
+                    trigger: stickyCards[index + 1],
+                    start: "top bottom",
+                    end: "top top",
+                    onUpdate: (self) => {
+                        const progress = self.progress;
+                        const scale = 1 - progress * 0.25;
+                        const rotation = (index % 2 === 0 ? 5: - 5) * progress;
+                        const afterOpacity = progress;
+
+                        gsap.set(card, {
+                            scale: scale, 
+                            rotation: rotation,
+                            "--after-opacity": afterOpacity,
+                        })
+                    }
+                })
+            }
+        })
+
         
-    // }, ">");
+    }
 
-    // pinTl.to('#testimonial-card-2', {
-    //     scrollTrigger: {
-    //         trigger: "#testimonials",
-    //         start: "top top", // when the top of the trigger hits the top of the viewport
-    //         scrub: true,
-    //         markers: true
-    //     },
-    //     stagger: 0.2,
-    //     duration: .5,
-    //     rotation: -20,
-    //     y: -300,
- 
-    // });
-
-    // pinTl.to('#testimonial-card-3', {
-    //     scrollTrigger: {
-    //         trigger: "#testimonials",
-    //         start: "top top",
-    //         scrub: true,
-    //         markers: true
-    //     },
-    //     stagger: 0.2,
-    //     duration: .5,
-    //     rotation: -20,
-    //     y: -300,
-    // }, ">");
-
-    // pinTl.to('#testimonial-card-2', {
-    //     scrollTrigger: {
-    //         trigger: "#testimonials",
-    //         start: "500", // when the top of the trigger hits the top of the viewport
-    //         end: "bottom bottom", 
-    //         scrub: true,
-    //         pin: true,
-    //     },
-    //     stagger: 0.2,
-    //     duration: 1.5,
-    //     rotation: -20,
-    //     y: -300,
-    //     ease: "power4.inOut",
-    // });
-
-    // pinTl.to('#testimonial-card-3', {
-    //     scrollTrigger: {
-    //         trigger: "#testimonials",
-    //         start: "500", // when the top of the trigger hits the top of the viewport
-    //         end: "bottom bottom", 
-    //         scrub: true,
-    //         pin: true,
-    //     },
-    //     stagger: 0.2,
-    //     duration: 1.5,
-    //     rotation: -20,
-    //     y: -300,
-    //     ease: "power4.inOut",
-    // });
-
-
-
-// learn what all this code means at
-// https://www.creativecodingclub.com/bundles/creative-coding-club
-// unlock over 250 GSAP lessons today
-
-
-const details = gsap.utils.toArray(".desktopContentSection:not(:first-child)")
-const photos = gsap.utils.toArray(".desktopPhoto:not(:first-child)")
-
-
-gsap.set(photos, {yPercent:101})
-
-const allPhotos = gsap.utils.toArray(".desktopPhoto")
-
-
-// create
-let mm = gsap.matchMedia();
-
-// add a media query. When it matches, the associated function will run
-mm.add("(min-width: 600px)", () => {
-
-  // this setup code only runs when viewport is at least 600px wide
-  console.log("desktop")
-	
-  ScrollTrigger.create({
-	trigger:".gallery",
-	start:"top top",
-	end:"bottom bottom",
-	pin:".right"
-})
-
-//create scrolltrigger for each details section
-//trigger photo animation when headline of each details section 
-//reaches 80% of window height
-details.forEach((detail, index)=> {
-
-	let headline = detail.querySelector("h1")
-	let animation = gsap.timeline()
-	   .to(photos[index], {yPercent:0})
-	   .set(allPhotos[index], {autoAlpha:0})
-	ScrollTrigger.create({
-		trigger:headline,
-		start:"top 80%",
-		end:"top 50%",
-		animation:animation,
-		scrub:true,
-		markers:false
-	})
-})
-	
-	
-  
-  return () => { // optional
-    // custom cleanup code here (runs when it STOPS matching)
-	  console.log("mobile")
-  };
-});
-
-
-
+    stickyCardsAnimation()
 
 
 
