@@ -55,3 +55,56 @@
     pointer-events: none;
     z-index: 2;
 }
+
+/* ---------- Adaptive navigation bar ----------
+   Transparent by default. index.js sets data-nav-theme="dark|light" on the nav
+   depending on what is behind it ("dark" = dark background => light text) and
+   data-scrolled="true" once the page has moved, which fades in a soft blurred tint. */
+.site-nav {
+    --nav-fg: #0b1f33;
+    --nav-tint: rgb(255 255 255 / 0.55);
+    background: transparent;
+}
+
+.site-nav[data-nav-theme="dark"] {
+    --nav-fg: #ffffff;
+    --nav-tint: rgb(0 20 40 / 0.35);
+}
+
+.site-nav::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: var(--nav-tint);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    transition: opacity 0.3s ease, background-color 0.3s ease;
+}
+
+.site-nav[data-scrolled="true"]::before {
+    opacity: 1;
+}
+
+.site-nav #mobile-nav {
+    color: var(--nav-fg);
+}
+
+.site-nav .nav-logo {
+    transition: filter 0.3s ease;
+}
+
+.site-nav[data-nav-theme="dark"] .nav-logo {
+    filter: brightness(0) invert(1);
+}
+
+/* On desktop the links sit directly on the page, so they follow the theme.
+   (On mobile they live inside the frosted dropdown panel, which has its own backdrop.) */
+@media (min-width: 768px) {
+    .site-nav ul {
+        color: var(--nav-fg);
+        transition: color 0.3s ease;
+    }
+}
