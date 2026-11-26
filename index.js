@@ -116,14 +116,24 @@ let isActive = false;
 // (naming kept from the original: "show" slides the menu in, "hide" slides it out)
 function closeMobileMenu() {
   if (!isActive) return;
-  gsap.to(navbarDropdown, { x: 750, ease: "power4.inOut" });
   isActive = false;
+  mobileNav.setAttribute("aria-expanded", "false");
+  gsap.to(navbarDropdown, {
+    x: 750,
+    ease: "power4.inOut",
+    // Hide it from keyboard/screen readers once it has slid out of view.
+    onComplete: () => {
+      if (!isActive) navbarDropdown.classList.remove("is-open");
+    },
+  });
 }
 
 mobileNav.addEventListener("click", function (e) {
   if (isActive) {
     closeMobileMenu();
   } else {
+    navbarDropdown.classList.add("is-open");
+    mobileNav.setAttribute("aria-expanded", "true");
     gsap.to(navbarDropdown, { x: 0, ease: "power4.inOut" });
     isActive = true;
   }
@@ -304,27 +314,31 @@ if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
   });
 }
 
-gsap.to("#clipy", {
-  scrollTrigger: {
-    trigger: "#testimonial",
-    start: 500, // when the top of the trigger hits the top of the viewport
-    end: "bottom bottom", // bottom of the trigger hits the bottom of the vp
-    scrub: true,
-    onEnter: playVid,
-    // onLeave: pauseVid,
-  },
-  clipPath: "inset(0 0 0 0)",
-  ease: "power4.inOut",
-});
+// Testimonial video: the clipped frame opens up as it scrolls into view.
+// (Triggered by the video frame itself so it works at any screen size.)
+if (document.querySelector("#clipy")) {
+  gsap.to("#clipy", {
+    scrollTrigger: {
+      trigger: "#clipy",
+      start: "top 85%",
+      end: "top 30%",
+      scrub: true,
+      onEnter: playVid,
+    },
+    clipPath: "inset(0 0 0 0)",
+    ease: "power4.inOut",
+  });
+}
 
 let vid = document.getElementById("myVideo");
 
 function playVid() {
-  vid.play();
+  // play() returns a promise that rejects if the browser blocks autoplay.
+  if (vid) vid.play().catch(() => {});
 }
 
 function pauseVid() {
-  console.log("pause video"), vid.pause();
+  if (vid) vid.pause();
 }
 
 // const accordion = document.querySelector("#acc-box");
@@ -460,7 +474,11 @@ const stickyCardsAnimation = () => {
   });
 };
 
-stickyCardsAnimation();
+// Pinned/stacking cards need a full viewport per card, which phones and
+// tablets don't have, so below 1024px the cards simply stack in normal flow.
+gsap.matchMedia().add("(min-width: 1024px)", () => {
+  stickyCardsAnimation();
+});
 
 /* ScrollTrigger Docs
 
@@ -478,19 +496,3 @@ new lessons weekly
 less than $1 per week
 
 */
-
-/**
- * @param {number[]} nums
- * @return {number}
- */
-Input: nums = [-4, -2, 1, 4, 8];
-var findClosestNumber = function (nums) {
-  let closest = nums[0];
-  for (let i = 0; i < nums.length; i++) {
-    if (Math.abs(nums[i] - 0) < Math.abs(closest - 0)) {
-      closest = Math.abs(nums[i]);
-    }
-  }
-  return closest;
-};
-console.log(findClosestNumber([-4, -2, 1, 4, 8]));

@@ -108,3 +108,13 @@
         transition: color 0.3s ease;
     }
 }
+
+/* Mobile menu: while it is slid off-screen keep it out of the tab order. */
+@media (max-width: 767px) {
+    #navbar-dropdown {
+        visibility: hidden;
+    }
+    #navbar-dropdown.is-open {
+        visibility: visible;
+    }
+}
